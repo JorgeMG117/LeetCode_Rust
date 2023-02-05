@@ -9,7 +9,6 @@ impl Solution {
         let mut found = false;
         let mut result: Vec<i32> = Vec::new();
         
-        let nums_copy = nums;
         // saving original indices and sorting
         let mut nums_ord: Vec<(usize, i32)> = 
             nums.into_iter()
@@ -18,7 +17,7 @@ impl Solution {
 
         nums_ord.sort_unstable_by_key(|&(_, n)| n);
 
-        println!("{:?}",nums_copy);
+        //println!("{:?}",nums_copy);
 
         while !found && idx_inf != idx_sup {
             let val_inf = nums_ord[idx_inf].1;
@@ -26,16 +25,15 @@ impl Solution {
 
             if val_inf + val_sup == target {
                 found = true;
-                result.push(idx_inf.try_into().unwrap());
-                result.push(idx_sup.try_into().unwrap());
+                result.push(nums_ord[idx_inf].0.try_into().unwrap());
+                result.push(nums_ord[idx_sup].0.try_into().unwrap());
             } else if val_inf + val_sup > target {
                 idx_sup = idx_sup - 1;
             } else {
                 idx_inf = idx_inf + 1;
             }
         }
-
-        //return result.into_iter().map(|a|nums[a]).collect::<Vec<i32>>();
+        
         return result;
     }
 }
