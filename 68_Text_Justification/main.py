@@ -48,6 +48,7 @@ Output:
 ]
 """
 class Solution:
+    """
     def fullJustify(self, words, maxWidth):
         current_space = maxWidth
         added_words = []
@@ -118,6 +119,38 @@ class Solution:
                 current_space = maxWidth
             
         return r
+    """
+
+    def fullJustify(self, words, maxWidth):
+        result = []
+        index = 0
+        n = len(words)
+        while index < n:
+            # Start a new line
+            line_words = []
+            line_length = 0
+            # Collect words for the current line
+            while index < n and line_length + len(words[index]) + len(line_words) <= maxWidth:
+                line_words.append(words[index])
+                line_length += len(words[index])
+                index += 1
+            # Determine if this is the last line or the line has only one word
+            if index == n or len(line_words) == 1:
+                # Left-justify
+                line = ' '.join(line_words)
+                spaces_needed = maxWidth - len(line)
+                line += ' ' * spaces_needed
+            else:
+                # Fully justify
+                total_spaces = maxWidth - line_length
+                spaces_between_words = len(line_words) - 1
+                space_width, extra_spaces = divmod(total_spaces, spaces_between_words)
+                line = ''
+                for i in range(spaces_between_words):
+                    line += line_words[i] + ' ' * (space_width + (1 if i < extra_spaces else 0))
+                line += line_words[-1]
+            result.append(line)
+        return result
         
 
 def main():
